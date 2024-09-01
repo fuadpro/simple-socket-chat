@@ -5,18 +5,18 @@ const socketMessage = require("./message");
 function initSocket(httpServer) {
   const io = new Server(httpServer);
 
-  let connectedClients = 0; 
+  let authenticatedUsers = new Set(); 
 
   io.on("connection", (socket) => {
-    connectedClients++;
-    io.emit("update-client-count", connectedClients);  // Broadcast the count to all clients
-    
-    socketAuth(socket);
+
+    socketAuth(socket, authenticatedUsers, io);
     socketMessage(socket, io);
 
+    io.emit("update-client-count", authenticatedUsers.size);  // Broadcast the count to all clients
+
     socket.on("disconnect", () => {
-      connectedClients--;
-      io.emit("update-client-count", connectedClients);  // Broadcast the updated count to all clients
+      authenticatedUsers.delete(socket.id);
+      io.emit("update-client-count", authenticatedUsers.size);  // Broadcast the updated count to all clients
     });
   });
 }
