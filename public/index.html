@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Socket.IO Tutorials</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body class="h-screen overflow-hidden flex items-center justify-center bg-[#edf2f7]">
+
+  <div class="bg-gray-100 h-screen flex flex-col justify-between max-w-xl w-full mx-auto">
+
+    <div class="bg-blue-500 p-4 text-white flex justify-between items-center">
+      <button id="login" class="hover:bg-blue-400 rounded-md p-1 flex gap-3 max-w-[250px] sm:max-w-[200px]">
+        <svg class="!w-[25px]" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="6" r="4" stroke="#ffffff" stroke-width="1.5"></circle> 
+            <path d="M15 20.6151C14.0907 20.8619 13.0736 21 12 21C8.13401 21 5 19.2091 5 17C5 14.7909 8.13401 13 12 13C15.866 13 19 14.7909 19 17C19 17.3453 18.9234 17.6804 18.7795 18" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> 
+          </g>
+        </svg>
+        <span id="userName" class=" break-all">
+          
+        </span>
+      </button>
+      <span class="text-center ">Socket Chat</span>
+      <div class="relative inline-block text-left">
+        <button id="setting" class="hover:bg-blue-400 rounded-md p-1 hidden">
+          <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1395 12.0002C14.1395 13.1048 13.2664 14.0002 12.1895 14.0002C11.1125 14.0002 10.2395 13.1048 10.2395 12.0002C10.2395 10.8957 11.1125 10.0002 12.1895 10.0002C13.2664 10.0002 14.1395 10.8957 14.1395 12.0002Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M7.57381 18.1003L5.12169 12.8133C4.79277 12.2907 4.79277 11.6189 5.12169 11.0963L7.55821 5.89229C7.93118 5.32445 8.55898 4.98876 9.22644 5.00029H12.1895H15.1525C15.8199 4.98876 16.4477 5.32445 16.8207 5.89229L19.2524 11.0923C19.5813 11.6149 19.5813 12.2867 19.2524 12.8093L16.8051 18.1003C16.4324 18.674 15.8002 19.0133 15.1281 19.0003H9.24984C8.5781 19.013 7.94636 18.6737 7.57381 18.1003Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+        </button>
+        <div id="dropdown-content" class="hidden absolute -right-4 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-10">
+          <a href="/" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">
+            <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 511.989 511.989" xml:space="preserve">
+              <g>
+                <g>
+                  <g>
+                    <path d="M110.933,221.782c-4.71,0-8.533,3.823-8.533,8.533v51.2c0,4.71,3.823,8.533,8.533,8.533s8.533-3.823,8.533-8.533v-51.2
+                      C119.467,225.605,115.644,221.782,110.933,221.782z"/>
+                    <path d="M111.855,2.304L31.172,34.586C8.448,43,0,54.418,0,76.715v358.477c0,22.298,8.448,33.715,30.959,42.061l81.058,32.427
+                      c4.011,1.519,8.038,2.287,11.981,2.287c17.152,0,29.602-14.336,29.602-34.091V34.049C153.6,9.78,134.246-6.126,111.855,2.304z
+                      M136.533,477.876c0,10.18-5.035,17.024-12.535,17.024c-1.869,0-3.883-0.401-5.803-1.118L37.103,461.33
+                      c-16.102-5.965-20.036-11.102-20.036-26.138V76.715c0-15.036,3.934-20.164,20.241-26.206l80.725-32.29
+                      c2.082-0.785,4.087-1.186,5.956-1.186c7.501,0,12.544,6.835,12.544,17.016V477.876z"/>
+                    <path d="M178.133,51.115h120.533c14.114,0,25.6,11.486,25.6,25.6v128c0,4.71,3.814,8.533,8.533,8.533
+                      c4.719,0,8.533-3.823,8.533-8.533v-128c0-23.526-19.14-42.667-42.667-42.667H178.133c-4.71,0-8.533,3.823-8.533,8.533
+                      S173.423,51.115,178.133,51.115z"/>
+                    <path d="M332.8,298.582c-4.719,0-8.533,3.823-8.533,8.533v128c0,14.114-11.486,25.6-25.6,25.6H179.2
+                      c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h119.467c23.526,0,42.667-19.14,42.667-42.667v-128
+                      C341.333,302.405,337.519,298.582,332.8,298.582z"/>
+                    <path d="M511.343,252.655c-0.435-1.05-1.058-1.988-1.852-2.782l-85.325-85.333c-3.337-3.336-8.73-3.336-12.066,0
+                      c-3.337,3.337-3.337,8.73,0,12.066l70.767,70.775H196.267c-4.71,0-8.533,3.823-8.533,8.533c0,4.71,3.823,8.533,8.533,8.533
+                      h286.601L412.1,335.215c-3.337,3.337-3.337,8.73,0,12.066c1.664,1.664,3.849,2.5,6.033,2.5c2.185,0,4.369-0.836,6.033-2.5
+                      l85.325-85.325c0.794-0.794,1.417-1.732,1.852-2.782C512.205,257.093,512.205,254.738,511.343,252.655z"/>
+                  </g>
+                </g>
+              </g>
+            </svg>
+            <span class="ml-3">
+              Logout
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-1 overflow-y-auto p-4  item-center justify-center  item-center" id="auth">
+      <div class=" bg-gray-100 flex flex-col justify-center sm:py-4 ">
+        <div class="p-2 xs:p-0 mx-auto md:w-full md:max-w-md ">
+          <h1 class="font-bold text-center text-2xl mb-5">Welcome Div Chat</h1>  
+          <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
+            <div class="px-5 py-7">
+              <label class="font-semibold text-sm text-gray-600 pb-1 block" >Enter Username</label>
+
+              <input type="text" id="nickName" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" placeholder="John Doe" maxlength="15" />
+
+              <button id="loginBtn" onclick="logIn()" type="button" class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+                  <span class="inline-block mr-2">Login</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-4  hidden" id="room">
+        <div class="flex flex-col space-y-4" id="chatScreen">
+        
+        </div>
+        <div id="scrollBottom"></div>
+    </div>
+    
+    <div class="bg-white p-4 flex items-center hidden" id="enterInput">
+        <input id="message" type="text" placeholder="Type your message..." class="flex-1 border rounded-full px-4 py-2 focus:outline-none">
+        <button onclick="sendMessage()" class="bg-blue-500 text-white rounded-full p-2 ml-2 hover:bg-blue-600 focus:outline-none">
+          <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier"> 
+              <path d="M11.5003 12H5.41872M5.24634 12.7972L4.24158 15.7986C3.69128 17.4424 3.41613 18.2643 3.61359 18.7704C3.78506 19.21 4.15335 19.5432 4.6078 19.6701C5.13111 19.8161 5.92151 19.4604 7.50231 18.7491L17.6367 14.1886C19.1797 13.4942 19.9512 13.1471 20.1896 12.6648C20.3968 12.2458 20.3968 11.7541 20.1896 11.3351C19.9512 10.8529 19.1797 10.5057 17.6367 9.81135L7.48483 5.24303C5.90879 4.53382 5.12078 4.17921 4.59799 4.32468C4.14397 4.45101 3.77572 4.78336 3.60365 5.22209C3.40551 5.72728 3.67772 6.54741 4.22215 8.18767L5.24829 11.2793C5.34179 11.561 5.38855 11.7019 5.407 11.8459C5.42338 11.9738 5.42321 12.1032 5.40651 12.231C5.38768 12.375 5.34057 12.5157 5.24634 12.7972Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              </path> 
+            </g>
+          </svg>
+        </button>
+    </div>
+    
+  </div>
+
+  <script>
+    const socket = io("/");
+    let nickName = "";
+
+    let messageCount = 0;
+    let debounceTimer = null;
+    let debounceStartTime = null;
+    const maxMessages = 5;
+    const debounceDuration = 10000;
+
+
+    socket.on("connect", () => {
+      console.log("Connection is successfull");
+    });
+
+    function scrollToBottom() {
+      const scrollBottom = document.getElementById("scrollBottom");
+      setTimeout(() => {
+        scrollBottom.scrollIntoView({ behavior: "smooth" });
+      }, 0);
+    }
+
+    socket.on("new-message", (data) => {
+      let content = `<b>${data.nickName}</b>: ${data.message}`;
+      document.getElementById(
+        "chatScreen"
+      ).innerHTML += `
+            <div class="flex">
+                <div class="bg-gray-300 text-black p-2 rounded-lg max-w-xs relative">
+                  <span class="absolute bg-blue-500 text-blue-100 px-2 py-1 text-xs font-bold rounded-full -top-3 -right-3">
+                    ${data.nickName}
+                  </span>
+                  <span class="break-all">
+                    ${data.message}  
+                  </span>
+                </div>
+            </div>`;
+      scrollToBottom();
+    });
+
+    function logIn() {
+      nickName = document.getElementById("nickName").value;
+
+      if (nickName?.length < 2) alert("Nickname 2 simvoldan cox olmalidir");
+
+      socket.emit("auth", nickName);
+
+      document.getElementById("auth").style.display = "none";
+      document.getElementById("room").classList.remove("hidden");
+      document.getElementById("enterInput").classList.remove("hidden");
+      document.getElementById("setting").classList.remove("hidden");
+      
+      document.getElementById("userName").innerHTML = nickName; 
+      
+    }
+    
+    
+
+    document.getElementById("message").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault(); 
+        sendMessage(); 
+      }
+    });
+
+    function sendMessage() {
+      let message = document.getElementById("message");
+
+      if (message.value.trim().length < 3) {
+        alert("3 herfden az mesaj yazma!");
+        return;
+      }
+
+      if (messageCount >= maxMessages) {
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - debounceStartTime;
+        const remainingTime = Math.ceil((debounceDuration - elapsedTime) / 1000);
+
+        alert(`Çatı boş boş doldurma! Gözlə ${remainingTime} saniyə`);
+
+        return;
+      }
+
+      socket.emit("message", message.value);
+
+      document.getElementById("chatScreen").innerHTML += `
+      <div class="flex justify-end">
+        <div class="bg-blue-200 text-black p-2 rounded-lg max-w-xs relative">
+          <span class="absolute bg-blue-500 text-blue-100 px-2 py-1 text-xs font-bold rounded-full -top-3 -right-3">
+            ${nickName}
+          </span>
+          <span class="break-all">
+            ${message.value}  
+          </span>
+        </div>
+      </div>`;
+
+      message.value = "";
+
+      scrollToBottom();
+
+      messageCount++;
+      
+      if (!debounceTimer) {
+        debounceStartTime = Date.now();
+
+        debounceTimer = setTimeout(() => {
+          messageCount = 0; // Reset message count after debounce period
+          clearTimeout(debounceTimer);
+          debounceTimer = null; // Reset timer
+        }, debounceDuration);
+      }
+
+    }
+
+
+
+    const button = document.getElementById('setting');
+    const dropdown = document.getElementById('dropdown-content');
+
+    button.addEventListener('click', function () {
+    dropdown.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+
+</html>
