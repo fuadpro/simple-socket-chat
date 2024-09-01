@@ -64,7 +64,7 @@
     </div>
     <div class="flex justify-start items-center">
       <div class="relative inline-block text-left mr-8 mt-1">
-        <button id="setting2" class="hover:bg-blue-400 bg-blue-200 rounded-md p-1 hidden relative">
+        <button id="onlineUserBtn" class="hover:bg-blue-400 bg-blue-200 rounded-md p-1 hidden relative">
           <span class="px-1">
             Online User
           </span>
@@ -72,7 +72,7 @@
             0
           </span>
         </button>
-        <div id="dropdown-content2" class="hidden absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-10">
+        <div id="onlineUsersLists" class="hidden absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-10">
           <div id="userList" class="px-4 py-1 flex flex-col gap-4">
         
           </div>
@@ -186,7 +186,10 @@
     function logIn() {
       nickName = document.getElementById("nickName").value;
 
-      if (nickName?.length < 2) alert("Nickname 2 simvoldan cox olmalidir");
+      if (nickName.length < 2) {
+        alert("Nickname 2 simvoldan cox olmalidir");
+        return; // Stop further execution if the nickname is invalid
+      }
 
       socket.emit("auth", nickName);
 
@@ -194,7 +197,7 @@
       document.getElementById("room").classList.remove("hidden");
       document.getElementById("enterInput").classList.remove("hidden");
       document.getElementById("setting").classList.remove("hidden");
-      document.getElementById("setting2").classList.remove("hidden");
+      document.getElementById("onlineUserBtn").classList.remove("hidden");
       
       document.getElementById("userName").innerHTML = nickName; 
       
@@ -267,11 +270,11 @@
     button.addEventListener('click', function () {
     dropdown.classList.toggle('hidden');
     });
-    const button2 = document.getElementById('setting2');
-    const dropdown2 = document.getElementById('dropdown-content2');
+    const onlineUserBtn = document.getElementById('onlineUserBtn');
+    const onlineUsersLists = document.getElementById('onlineUsersLists');
 
-    button2.addEventListener('click', function () {
-    dropdown2.classList.toggle('hidden');
+    onlineUserBtn.addEventListener('click', function () {
+    onlineUsersLists.classList.toggle('hidden');
     });
   </script>
 
